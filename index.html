@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Zone Converter</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
+</head>
+<body>
+    <div class="navbar">
+        <a href="#" onclick="showSection('timezone-converter')">TimeZone Converter</a>
+        <a href="#" onclick="showSection('json-formatter')">JSON Formatter</a>
+    </div>
+
+    <div class="container" id="timezone-converter">
+        <h1>Time Zone Converter</h1>
+        <label for="datetime">Enter Date and Time:</label>
+        <input type="datetime-local" id="datetime" />
+
+        <label for="source-timezone">Source Time Zone:</label>
+        <select id="source-timezone">
+            <option value="UTC">UTC</option>
+            <option value="America/New_York">America/New_York</option>
+            <option value="Europe/London">Europe/London</option>
+            <option value="Asia/Tokyo">Asia/Tokyo</option>
+        </select>
+
+        <label for="target-timezone">Target Time Zone:</label>
+        <select id="target-timezone">
+            <option value="UTC">UTC</option>
+            <option value="America/New_York">America/New_York</option>
+            <option value="Europe/London">Europe/London</option>
+            <option value="Asia/Tokyo">Asia/Tokyo</option>
+        </select>
+
+        <button onclick="convertTime()">Convert</button>
+
+        <h2>Converted Time:</h2>
+        <p id="result"></p>
+    </div>
+
+
+    <div class="container hidden" id="json-formatter">
+        <h1>JSON Formatter</h1>
+        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 300px;">
+                <label for="json-input">Paste JSON here:</label>
+                <textarea id="json-input" rows="15" placeholder="Paste your JSON here..."></textarea>
+            </div>
+            <div style="flex: 1; min-width: 300px;">
+                <label for="formatted-json">Formatted JSON:</label>
+                <textarea id="formatted-json" rows="15" readonly></textarea>
+                <button onclick="copyFormattedJSON()" style="margin-top: 10px;">Copy to Clipboard</button>
+            </div>
+        </div>
+        <button onclick="formatJSON()" style="margin-top: 20px;">Format JSON</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
