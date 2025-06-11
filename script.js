@@ -24,7 +24,11 @@ function convertTime() {
 }
 
 function formatJSON() {
-    const jsonInput = document.getElementById('json-input').value;
+    let jsonInput = document.getElementById('json-input').value;
+
+    // Clean the input
+    jsonInput = jsonInput.replace(/\\r\\n/g, '').replace(/\\"/g, '"');
+
     try {
         const parsed = JSON.parse(jsonInput);
         const formatted = JSON.stringify(parsed, null, 2);
@@ -33,6 +37,7 @@ function formatJSON() {
         document.getElementById('formatted-json').value = "Invalid JSON";
     }
 }
+
 
 
 function copyFormattedJSON() {
