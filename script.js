@@ -47,5 +47,4 @@ function copyFormattedJSON() {
     formattedText.select();
     formattedText.setSelectionRange(0, 99999); // For mobile devices
     document.execCommand('copy');
-    alert('Formatted JSON copied to clipboard!');
 }
