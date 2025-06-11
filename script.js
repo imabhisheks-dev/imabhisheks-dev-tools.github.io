@@ -27,7 +27,11 @@ function formatJSON() {
     let jsonInput = document.getElementById('json-input').value;
 
     // Clean the input
-    jsonInput = jsonInput.replace(/\\r\\n/g, '').replace(/\\"/g, '"');
+    jsonInput = jsonInput
+        .replace(/\\r\\n/g, '')
+        .replace(/\\"/g, '"')
+        .replace(/"\{/g, '{')
+        .replace(/\}"/g, '}');
 
     try {
         const parsed = JSON.parse(jsonInput);
@@ -37,8 +41,6 @@ function formatJSON() {
         document.getElementById('formatted-json').value = "Invalid JSON";
     }
 }
-
-
 
 function copyFormattedJSON() {
     const formattedText = document.getElementById('formatted-json');
