@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Time Zone Converter</title>
+    <title>Abhishek Dev Tools</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
 </head>
@@ -46,15 +46,19 @@
         <div style="display: flex; gap: 20px; flex-wrap: wrap;">
             <div style="flex: 1; min-width: 300px;">
                 <label for="json-input">Paste JSON here:</label>
-                <textarea id="json-input" rows="15" placeholder="Paste your JSON here..."></textarea>
+                <textarea id="json-input" rows="40" placeholder="Paste your JSON here..."></textarea>
+                <button onclick="formatJSON()" style="margin-top: 10px;">Copy to Clipboard</button>
             </div>
+            
+            <div>                
+            </div>
+            
             <div style="flex: 1; min-width: 300px;">
-                <label for="formatted-json">Formatted JSON(\r\n, \", "{ & }" are handled):</label>
-                <textarea id="formatted-json" rows="15" readonly></textarea>
+                <label for="formatted-json">Formatted JSON(\r\n, \", "{, }" are handled):</label>
+                <textarea id="formatted-json" rows="40" readonly></textarea>
                 <button onclick="copyFormattedJSON()" style="margin-top: 10px;">Copy to Clipboard</button>
             </div>
         </div>
-        <button onclick="formatJSON()" style="margin-top: 20px;">Format JSON</button>
     </div>
 
     <script src="script.js"></script>
