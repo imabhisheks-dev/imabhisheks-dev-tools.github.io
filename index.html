@@ -11,6 +11,7 @@
     <div class="navbar">
         <a href="#" onclick="showSection('timezone-converter')">TimeZone Converter</a>
         <a href="#" onclick="showSection('json-formatter')">JSON Formatter</a>
+        <a href="#" onclick="showSection('xml-formatter')">XML Formatter</a>
     </div>
 
     <div class="container" id="timezone-converter">
@@ -57,6 +58,27 @@
                 <label for="formatted-json">Formatted JSON(\r\n, \", "{, }" are handled):</label>
                 <textarea id="formatted-json" rows="40" readonly></textarea>
                 <button onclick="copyFormattedJSON()" style="margin-top: 10px;">Copy to Clipboard</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container hidden" id="xml-formatter">
+        <h1>XML Formatter</h1>
+        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 300px;">
+                <label for="xml-input">Paste XML here:</label>
+                <textarea id="xml-input" rows="40" placeholder="Paste your XML here..."></textarea>
+                <button onclick="formatXML()" style="margin-top: 10px;">Format XML</button>
+            </div>
+            
+            <div>                
+            </div>
+            
+            <div style="flex: 1; min-width: 300px;">
+                <label for="formatted-xml">Formatted XML:</label>
+                <textarea id="formatted-xml" rows="40" readonly></textarea>
+                <button onclick="copyFormattedXML()" style="margin-top: 10px;">Copy to Clipboard</button>
             </div>
         </div>
     </div>

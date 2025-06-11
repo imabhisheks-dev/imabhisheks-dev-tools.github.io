@@ -48,3 +48,52 @@ function copyFormattedJSON() {
     formattedText.setSelectionRange(0, 99999); // For mobile devices
     document.execCommand('copy');
 }
+
+function formatXML() {
+    let xmlInput = document.getElementById('xml-input').value;
+
+    // Validate XML using DOMParser
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xmlInput, "application/xml");
+
+    const parseError = xmlDoc.getElementsByTagName("parsererror");
+    if (parseError.length > 0) {
+        document.getElementById('formatted-xml').value = "Invalid XML:\n" + parseError[0].textContent;
+        return;
+    }
+
+    // Format XML
+    const formatted = formatXmlString(new XMLSerializer().serializeToString(xmlDoc));
+    document.getElementById('formatted-xml').value = formatted;
+}
+
+function formatXmlString(xml) {
+    const PADDING = '  ';
+    const reg = /(>)(<)(\/*)/g;
+    let formatted = '';
+    let pad = 0;
+
+    xml = xml.replace(reg, '$1\r\n$2$3');
+    xml.split('\r\n').forEach((node) => {
+        let indent = 0;
+        if (node.match(/.+<\/\w[^>]*>$/)) {
+            indent = 0;
+        } else if (node.match(/^<\/\w/)) {
+            if (pad !== 0) pad -= 1;
+        } else if (node.match(/^<\w[^>]*[^\/]>.*$/)) {
+            indent = 1;
+        }
+
+        formatted += PADDING.repeat(pad) + node + '\r\n';
+        pad += indent;
+    });
+
+    return formatted.trim();
+}
+
+function copyFormattedXML() {
+    const formattedText = document.getElementById('formatted-xml');
+    formattedText.select();
+    formattedText.setSelectionRange(0, 99999); // For mobile devices
+    document.execCommand('copy');
+}
