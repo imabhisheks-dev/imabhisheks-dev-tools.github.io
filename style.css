@@ -72,6 +72,5 @@ h2 {
 #result,
 #formatted-json {
     font-weight: bold;
-    margin-top: 10px;
     white-space: pre-wrap;
 }
