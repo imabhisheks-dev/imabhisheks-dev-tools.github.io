@@ -65,12 +65,22 @@ function convertTime() {
 function formatJSON() {
     let jsonInput = document.getElementById('json-input').value;
 
-    // Clean the input
-    jsonInput = jsonInput
-        .replace(/\\r\\n/g, '')
-        .replace(/\\"/g, '"')
-        .replace(/"\{/g, '{')
-        .replace(/\}"/g, '}');
+    // Conditional replacements based on checkboxes
+    if (document.getElementById('cb-newline').checked) {
+        jsonInput = jsonInput.replace(/\\n/g, '');
+    }
+
+    if (document.getElementById('cb-carriage').checked) {
+        jsonInput = jsonInput.replace(/\\r/g, '');
+    }
+
+    if (document.getElementById('cb-quote').checked) {
+        jsonInput = jsonInput.replace(/\\"/g, '"');
+    }
+
+    if (document.getElementById('cb-open-close-brace').checked) {
+        jsonInput = jsonInput.replace(/"\{/g, '{').replace(/\}"/g, '}');
+    }
 
     try {
         const parsed = JSON.parse(jsonInput);
@@ -80,6 +90,7 @@ function formatJSON() {
         document.getElementById('formatted-json').value = "Invalid JSON";
     }
 }
+
 
 function copyFormattedJSON() {
     const formattedText = document.getElementById('formatted-json');

@@ -77,7 +77,12 @@
         <h1>JSON Formatter</h1>
         <div style="display: flex; gap: 20px; flex-wrap: wrap;">
             <div style="flex: 1; min-width: 300px;">
-                <label for="json-input">Paste JSON here:</label>
+                <label for="json-input">Paste JSON here (handle these
+                    <input type="checkbox" class="inline-jsonformat-checkbox" id="cb-quote" /> \"->"" |
+                    <input type="checkbox" class="inline-jsonformat-checkbox" id="cb-newline" /> \n->"" |
+                    <input type="checkbox" class="inline-jsonformat-checkbox" id="cb-carriage" /> \r->"" |
+                    <input type="checkbox" class="inline-jsonformat-checkbox" id="cb-open-close-brace" /> "{,}"->"":
+                </label>
                 <textarea id="json-input" rows="40" placeholder="Paste your JSON here..."></textarea>
                 <button onclick="formatJSON()" style="margin-top: 10px;">Format Json</button>
             </div>
@@ -86,7 +91,9 @@
             </div>
 
             <div style="flex: 1; min-width: 300px;">
-                <label for="formatted-json">Formatted JSON(\r\n, \", "{, }" are handled):</label>
+                <label>
+                    Formatted JSON (and handle
+                </label>
                 <textarea id="formatted-json" rows="40" readonly></textarea>
                 <button onclick="copyFormattedJSON()" style="margin-top: 10px;">Copy to Clipboard</button>
             </div>
