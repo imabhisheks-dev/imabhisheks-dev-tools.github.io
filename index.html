@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,38 +8,58 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
 </head>
+
 <body>
     <div class="navbar">
-        <a href="#" onclick="showSection('timezone-converter')">TimeZone Converter</a>
+        <a href="#" onclick="showSection('timezone-converter')">Time Converter</a>
         <a href="#" onclick="showSection('json-formatter')">JSON Formatter</a>
         <a href="#" onclick="showSection('xml-formatter')">XML Formatter</a>
     </div>
 
     <div class="container" id="timezone-converter">
         <h1>Time Zone Converter</h1>
-        <label for="datetime">Enter Date and Time:</label>
-        <input type="datetime-local" id="datetime" />
+        <label for="time-input">Enter Time (24-hour format):</label>
+        <input type="time" id="time-input" />
 
         <label for="source-timezone">Source Time Zone:</label>
         <select id="source-timezone">
-            <option value="UTC">UTC</option>
-            <option value="America/New_York">America/New_York</option>
-            <option value="Europe/London">Europe/London</option>
-            <option value="Asia/Tokyo">Asia/Tokyo</option>
+            <option value="Asia/Kolkata">(IST) India - Delhi</option>
+            <option value="America/New_York">(EST) USA - New York</option>
+            <option value="Europe/London">(CET) UK - London</option>
+            <option value="UTC">(UTC) Coordinated Universal Time</option>
+            <option value="Asia/Jerusalem">Israel - Jerusalem</option>
+            <option value="Asia/Tehran">Iran - Tehran</option>
+            <option value="Europe/Moscow">Russia - Moscow</option>
+            <option value="Europe/Kyiv">Ukraine - Kyiv</option>
+            <option value="Australia/Sydney">Australia - Sydney</option>
+            <option value="America/Toronto">(PST) Canada - Toronto</option>
         </select>
 
         <label for="target-timezone">Target Time Zone:</label>
         <select id="target-timezone">
-            <option value="UTC">UTC</option>
-            <option value="America/New_York">America/New_York</option>
-            <option value="Europe/London">Europe/London</option>
-            <option value="Asia/Tokyo">Asia/Tokyo</option>
+            <option value="Asia/Kolkata">(IST) India - Delhi</option>
+            <option value="America/New_York">(EST) USA - New York</option>
+            <option value="Europe/London">(CET) UK - London</option>
+            <option value="UTC">(UTC) Coordinated Universal Time</option>
+            <option value="Asia/Jerusalem">Israel - Jerusalem</option>
+            <option value="Asia/Tehran">Iran - Tehran</option>
+            <option value="Europe/Moscow">Russia - Moscow</option>
+            <option value="Europe/Kyiv">Ukraine - Kyiv</option>
+            <option value="Australia/Sydney">Australia - Sydney</option>
+            <option value="America/Toronto">(PST) Canada - Toronto</option>
         </select>
 
         <button onclick="convertTime()">Convert</button>
 
         <h2>Converted Time:</h2>
         <p id="result"></p>
+
+        <hr style="margin: 30px 0; border: none; border-top: 2px solid #ccc;" />
+
+        <h1>Live World Clock</h1>
+        <div class="clock-container" id="clockContainer">
+            <!-- Clocks will be injected by JavaScript -->
+        </div>
     </div>
 
 
@@ -50,10 +71,10 @@
                 <textarea id="json-input" rows="40" placeholder="Paste your JSON here..."></textarea>
                 <button onclick="formatJSON()" style="margin-top: 10px;">Format Json</button>
             </div>
-            
-            <div>                
+
+            <div>
             </div>
-            
+
             <div style="flex: 1; min-width: 300px;">
                 <label for="formatted-json">Formatted JSON(\r\n, \", "{, }" are handled):</label>
                 <textarea id="formatted-json" rows="40" readonly></textarea>
@@ -71,10 +92,10 @@
                 <textarea id="xml-input" rows="40" placeholder="Paste your XML here..."></textarea>
                 <button onclick="formatXML()" style="margin-top: 10px;">Format XML</button>
             </div>
-            
-            <div>                
+
+            <div>
             </div>
-            
+
             <div style="flex: 1; min-width: 300px;">
                 <label for="formatted-xml">Formatted XML:</label>
                 <textarea id="formatted-xml" rows="40" readonly></textarea>
@@ -85,4 +106,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

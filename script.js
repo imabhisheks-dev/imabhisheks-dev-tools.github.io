@@ -6,22 +6,60 @@ function showSection(sectionId) {
 }
 
 function convertTime() {
-    const DateTime = luxon.DateTime;
+  const timeInput = document.getElementById("time-input").value;
+  const sourceZone = document.getElementById("source-timezone").value;
+  const targetZone = document.getElementById("target-timezone").value;
 
-    const datetime = document.getElementById('datetime').value;
-    const sourceTimezone = document.getElementById('source-timezone').value;
-    const targetTimezone = document.getElementById('target-timezone').value;
+  if (!timeInput) {
+    document.getElementById("result").textContent = "Please enter a time.";
+    return;
+  }
 
-    if (!datetime) {
-        document.getElementById('result').innerText = "Please enter a valid date and time.";
-        return;
-    }
+  const [hour, minute] = timeInput.split(":").map(Number);
 
-    const dt = DateTime.fromISO(datetime, { zone: sourceTimezone });
-    const converted = dt.setZone(targetTimezone).toLocaleString(DateTime.DATETIME_FULL);
+  const nowUtc = luxon.DateTime.utc();
+  const sourceTime = luxon.DateTime.fromObject(
+    {
+      year: nowUtc.year,
+      month: nowUtc.month,
+      day: nowUtc.day,
+      hour: hour,
+      minute: minute
+    },
+    { zone: sourceZone }
+  );
 
-    document.getElementById('result').innerText = converted;
+  const targetTime = sourceTime.setZone(targetZone);
+  const targetLabel = document.getElementById("target-timezone")
+    .options[document.getElementById("target-timezone").selectedIndex].text;
+
+  const formattedMain = targetTime.toFormat("hh:mm a (cccc, dd LLL yyyy)");
+
+  // Display main converted result
+  let output = `✅ Converted Time in ${targetLabel}: ${formattedMain}\n`;
+
+  // Define zones to show extra conversions
+  const zonesToShow = [
+    { label: "UTC - Universal Time", zone: "UTC" },
+    { label: "IST - India Time", zone: "Asia/Kolkata" },
+    { label: "EST - USA Time", zone: "America/New_York" },
+    { label: "CET - UK Time", zone: "Europe/London" },
+    { label: "PST - Canada Time", zone: "America/Toronto" }
+  ];
+
+  output += "🕒 Other Time Zones:\n";
+
+  zonesToShow.forEach(({ label, zone }) => {
+    const converted = sourceTime.setZone(zone).toFormat("hh:mm a (cccc, dd LLL yyyy)");
+    output += `${label} time: ${converted}\n`;
+  });
+
+  // Replace newline characters with <br> for HTML
+  document.getElementById("result").innerHTML = output.replace(/\n/g, "<br><br>");
 }
+
+
+
 
 function formatJSON() {
     let jsonInput = document.getElementById('json-input').value;
@@ -97,3 +135,52 @@ function copyFormattedXML() {
     formattedText.setSelectionRange(0, 99999); // For mobile devices
     document.execCommand('copy');
 }
+
+const timeZones = [
+  { city: "(IST) India - Delhi", zone: "Asia/Kolkata", countryCode: "in" },
+  { city: "(EST) USA - New York", zone: "America/New_York", countryCode: "us" },
+  { city: "(CET) UK - London", zone: "Europe/London", countryCode: "gb" },
+  { city: "(UTC | GMT) Universal Time", zone: "UTC", countryCode: "un" },
+  { city: "Israel - Jerusalem", zone: "Asia/Jerusalem", countryCode: "il" },
+  { city: "Iran - Tehran", zone: "Asia/Tehran", countryCode: "ir" },
+  { city: "Russia - Moscow", zone: "Europe/Moscow", countryCode: "ru" },
+  { city: "Ukraine - Kyiv", zone: "Europe/Kyiv", countryCode: "ua" },
+  { city: "Australia - Sydney", zone: "Australia/Sydney", countryCode: "au" },
+  { city: "(PST) Canada - Toronto", zone: "America/Toronto", countryCode: "ca" }
+];
+
+const container = document.getElementById('clockContainer');
+
+const getFlagUrl = (code) =>
+  code === "un"
+    ? "https://upload.wikimedia.org/wikipedia/commons/c/c4/Globe_icon.svg"
+    : `https://flagcdn.com/w80/${code}.png`;
+
+timeZones.forEach(({ city, countryCode }, index) => {
+  const div = document.createElement('div');
+  div.className = 'clock';
+  div.innerHTML = `
+    <img class="flag" src="${getFlagUrl(countryCode)}" alt="${countryCode} flag">
+    <div class="info">
+      <div class="city">${city}</div>
+      <div class="time" id="time-${index}">--:--:--</div>
+    </div>
+  `;
+  container.appendChild(div);
+});
+
+function updateClocks() {
+  timeZones.forEach(({ zone }, index) => {
+    const now = new Date().toLocaleTimeString('en-US', {
+      timeZone: zone,
+      hour12: true,
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+    document.getElementById(`time-${index}`).textContent = now;
+  });
+}
+
+updateClocks();
+setInterval(updateClocks, 1000);
