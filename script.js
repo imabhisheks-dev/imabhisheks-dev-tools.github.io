@@ -11,7 +11,7 @@ function convertTime() {
   const targetZone = document.getElementById("target-timezone").value;
 
   if (!timeInput) {
-    document.getElementById("result").textContent = "Please enter a time.";
+    document.getElementById("target-timezone-result").textContent = "Please enter a time.";
     return;
   }
 
@@ -36,7 +36,9 @@ function convertTime() {
   const formattedMain = targetTime.toFormat("hh:mm a (cccc, dd LLL yyyy)");
 
   // Display main converted result
-  let output = `✅ Converted Time in ${targetLabel}: ${formattedMain}\n`;
+  let targettimezoneresult = `✅ Converted Time in ${targetLabel}: ${formattedMain}\n`;
+  document.getElementById("target-timezone-result").innerHTML = targettimezoneresult.replace(/\n/g, "<br><br>");
+  let othertimezonesresult = `🕒 Other Time Zones:\n`;
 
   // Define zones to show extra conversions
   const zonesToShow = [
@@ -47,15 +49,13 @@ function convertTime() {
     { label: "PST - Canada Time", zone: "America/Toronto" }
   ];
 
-  output += "🕒 Other Time Zones:\n";
-
   zonesToShow.forEach(({ label, zone }) => {
     const converted = sourceTime.setZone(zone).toFormat("hh:mm a (cccc, dd LLL yyyy)");
-    output += `${label} time: ${converted}\n`;
+    othertimezonesresult += `${label} time: ${converted}\n`;
   });
 
   // Replace newline characters with <br> for HTML
-  document.getElementById("result").innerHTML = output.replace(/\n/g, "<br><br>");
+  document.getElementById("other-timezone-result").innerHTML = othertimezonesresult.replace(/\n/g, "<br><br>");
 }
 
 

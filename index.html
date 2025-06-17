@@ -11,48 +11,58 @@
 
 <body>
     <div class="navbar">
-        <a href="#" onclick="showSection('timezone-converter')">Time Converter</a>
+        <a href="#" onclick="showSection('timezone-converter')">TimeZone Converter</a>
         <a href="#" onclick="showSection('json-formatter')">JSON Formatter</a>
         <a href="#" onclick="showSection('xml-formatter')">XML Formatter</a>
     </div>
 
     <div class="container" id="timezone-converter">
         <h1>Time Zone Converter</h1>
-        <label for="time-input">Enter Time (24-hour format):</label>
-        <input type="time" id="time-input" />
+        <div class="timezone-container">
+            <div> <label for="time-input">Enter Time:</label>
+                <input type="time" id="time-input" />
+            </div>
+            <div><label for="source-timezone">Source Time Zone:</label>
+                <select id="source-timezone">
+                    <option value="Asia/Kolkata">(IST) India - Delhi</option>
+                    <option value="America/New_York">(EST) USA - New York</option>
+                    <option value="Europe/London">(CET) UK - London</option>
+                    <option value="UTC">(UTC) Coordinated Universal Time</option>
+                    <option value="Asia/Jerusalem">Israel - Jerusalem</option>
+                    <option value="Asia/Tehran">Iran - Tehran</option>
+                    <option value="Europe/Moscow">Russia - Moscow</option>
+                    <option value="Europe/Kyiv">Ukraine - Kyiv</option>
+                    <option value="Australia/Sydney">Australia - Sydney</option>
+                    <option value="America/Toronto">(PST) Canada - Toronto</option>
+                </select>
+            </div>
 
-        <label for="source-timezone">Source Time Zone:</label>
-        <select id="source-timezone">
-            <option value="Asia/Kolkata">(IST) India - Delhi</option>
-            <option value="America/New_York">(EST) USA - New York</option>
-            <option value="Europe/London">(CET) UK - London</option>
-            <option value="UTC">(UTC) Coordinated Universal Time</option>
-            <option value="Asia/Jerusalem">Israel - Jerusalem</option>
-            <option value="Asia/Tehran">Iran - Tehran</option>
-            <option value="Europe/Moscow">Russia - Moscow</option>
-            <option value="Europe/Kyiv">Ukraine - Kyiv</option>
-            <option value="Australia/Sydney">Australia - Sydney</option>
-            <option value="America/Toronto">(PST) Canada - Toronto</option>
-        </select>
+            <div><label for="target-timezone">Target Time Zone:</label>
+                <select id="target-timezone">
+                    <option value="Asia/Kolkata">(IST) India - Delhi</option>
+                    <option value="America/New_York">(EST) USA - New York</option>
+                    <option value="Europe/London">(CET) UK - London</option>
+                    <option value="UTC">(UTC) Coordinated Universal Time</option>
+                    <option value="Asia/Jerusalem">Israel - Jerusalem</option>
+                    <option value="Asia/Tehran">Iran - Tehran</option>
+                    <option value="Europe/Moscow">Russia - Moscow</option>
+                    <option value="Europe/Kyiv">Ukraine - Kyiv</option>
+                    <option value="Australia/Sydney">Australia - Sydney</option>
+                    <option value="America/Toronto">(PST) Canada - Toronto</option>
+                </select>
+            </div>
 
-        <label for="target-timezone">Target Time Zone:</label>
-        <select id="target-timezone">
-            <option value="Asia/Kolkata">(IST) India - Delhi</option>
-            <option value="America/New_York">(EST) USA - New York</option>
-            <option value="Europe/London">(CET) UK - London</option>
-            <option value="UTC">(UTC) Coordinated Universal Time</option>
-            <option value="Asia/Jerusalem">Israel - Jerusalem</option>
-            <option value="Asia/Tehran">Iran - Tehran</option>
-            <option value="Europe/Moscow">Russia - Moscow</option>
-            <option value="Europe/Kyiv">Ukraine - Kyiv</option>
-            <option value="Australia/Sydney">Australia - Sydney</option>
-            <option value="America/Toronto">(PST) Canada - Toronto</option>
-        </select>
+        </div>
 
-        <button onclick="convertTime()">Convert</button>
+        <div>
+            <br>
+        </div>
+        <div>
+            <button onclick="convertTime()">Convert</button>
+        </div>
 
-        <h2>Converted Time:</h2>
-        <p id="result"></p>
+        <h2 id="target-timezone-result"></h2>
+        <p id="other-timezone-result"></p>
 
         <hr style="margin: 30px 0; border: none; border-top: 2px solid #ccc;" />
 
