@@ -77,11 +77,12 @@
         <h1>JSON Formatter</h1>
         <div style="display: flex; gap: 20px; flex-wrap: wrap;">
             <div style="flex: 1; min-width: 300px;">
-                <label for="json-input">Paste JSON here (handle these
-                    <input type="checkbox" class="inline-jsonformat-checkbox" id="cb-quote" /> \"->"" |
-                    <input type="checkbox" class="inline-jsonformat-checkbox" id="cb-newline" /> \n->"" |
-                    <input type="checkbox" class="inline-jsonformat-checkbox" id="cb-carriage" /> \r->"" |
-                    <input type="checkbox" class="inline-jsonformat-checkbox" id="cb-open-close-brace" /> "{,}"->"":
+                <label for="json-input">Paste JSON here (Replace following characters):</label>
+                <label>
+                    <input type="checkbox" class="inline-jsonformat-checkbox" id="cb-quote" />\" → "" ||
+                    <input type="checkbox" class="inline-jsonformat-checkbox" id="cb-newline" /> \n → "" ||
+                    <input type="checkbox" class="inline-jsonformat-checkbox" id="cb-carriage" /> \r → "" ||
+                    <input type="checkbox" class="inline-jsonformat-checkbox" id="cb-open-close-brace" /> "{,}" → "{}":
                 </label>
                 <textarea id="json-input" rows="40" placeholder="Paste your JSON here..."></textarea>
                 <button onclick="formatJSON()" style="margin-top: 10px;">Format Json</button>
@@ -92,9 +93,12 @@
 
             <div style="flex: 1; min-width: 300px;">
                 <label>
-                    Formatted JSON (and handle
+                    Formatted JSON
                 </label>
-                <textarea id="formatted-json" rows="40" readonly></textarea>
+                <label class="inline-jsonformat-message" id="formatted-json-message">
+                    Formatted JSON will appear here...
+                </label>
+                <textarea id="formatted-json-response" rows="40" readonly></textarea>
                 <button onclick="copyFormattedJSON()" style="margin-top: 10px;">Copy to Clipboard</button>
             </div>
         </div>

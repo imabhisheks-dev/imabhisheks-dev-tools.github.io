@@ -1,9 +1,9 @@
 
 function showSection(sectionId) {
-    document.getElementById('timezone-converter').classList.add('hidden');
-    document.getElementById('json-formatter').classList.add('hidden');
-    document.getElementById('xml-formatter').classList.add('hidden');
-    document.getElementById(sectionId).classList.remove('hidden');
+  document.getElementById('timezone-converter').classList.add('hidden');
+  document.getElementById('json-formatter').classList.add('hidden');
+  document.getElementById('xml-formatter').classList.add('hidden');
+  document.getElementById(sectionId).classList.remove('hidden');
 }
 
 function convertTime() {
@@ -63,102 +63,106 @@ function convertTime() {
 
 
 function formatJSON() {
-    let jsonInput = document.getElementById('json-input').value;
+  let jsonInput = document.getElementById('json-input').value;
 
-    // Conditional replacements based on checkboxes
-    if (document.getElementById('cb-newline').checked) {
-        jsonInput = jsonInput.replace(/\\n/g, '');
-    }
+  // Conditional replacements based on checkboxes
+  if (document.getElementById('cb-newline').checked) {
+    jsonInput = jsonInput.replace(/\\n/g, '');
+  }
 
-    if (document.getElementById('cb-carriage').checked) {
-        jsonInput = jsonInput.replace(/\\r/g, '');
-    }
+  if (document.getElementById('cb-carriage').checked) {
+    jsonInput = jsonInput.replace(/\\r/g, '');
+  }
 
-    if (document.getElementById('cb-quote').checked) {
-        jsonInput = jsonInput.replace(/\\"/g, '"');
-    }
+  if (document.getElementById('cb-quote').checked) {
+    jsonInput = jsonInput.replace(/\\"/g, '"');
+  }
 
-    if (document.getElementById('cb-open-close-brace').checked) {
-        jsonInput = jsonInput.replace(/"\{/g, '{').replace(/\}"/g, '}');
-    }
+  if (document.getElementById('cb-open-close-brace').checked) {
+    jsonInput = jsonInput.replace(/"\{/g, '{').replace(/\}"/g, '}');
+  }
 
-    try {
-        const parsed = JSON.parse(jsonInput);
-        const formatted = JSON.stringify(parsed, null, 2);
-        document.getElementById('formatted-json').value = formatted;
-    } catch (error) {
-        document.getElementById('formatted-json').value = "Invalid JSON";
-    }
+  try {
+    const parsed = JSON.parse(jsonInput);
+    const formatted = JSON.stringify(parsed, null, 2);
+    document.getElementsByClassName('inline-jsonformat-message')[0].style.color = 'green';
+    document.getElementById('formatted-json-message').textContent = 'Valid JSON';
+    document.getElementById('formatted-json-response').value = formatted;
+  } catch (error) {
+    document.getElementsByClassName('inline-jsonformat-message')[0].style.color = 'red';
+    document.getElementById('formatted-json-message').textContent = "Invalid JSON";
+    document.getElementById('formatted-json-response').value = "";
+  }
 }
 
 
 function copyFormattedJSON() {
-    const formattedText = document.getElementById('formatted-json');
-    formattedText.select();
-    formattedText.setSelectionRange(0, 99999); // For mobile devices
-    document.execCommand('copy');
+  const formattedText = document.getElementById('formatted-json');
+  formattedText.select();
+  formattedText.setSelectionRange(0, 99999); // For mobile devices
+  document.execCommand('copy');
 }
 
 function formatXML() {
-    let xmlInput = document.getElementById('xml-input').value;
+  let xmlInput = document.getElementById('xml-input').value;
 
-    // Validate XML using DOMParser
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlInput, "application/xml");
+  // Validate XML using DOMParser
+  const parser = new DOMParser();
+  const xmlDoc = parser.parseFromString(xmlInput, "application/xml");
 
-    const parseError = xmlDoc.getElementsByTagName("parsererror");
-    if (parseError.length > 0) {
-        document.getElementById('formatted-xml').value = "Invalid XML:\n" + parseError[0].textContent;
-        return;
-    }
+  const parseError = xmlDoc.getElementsByTagName("parsererror");
+  if (parseError.length > 0) {
+    document.getElementById('formatted-xml').value = "Invalid XML:\n" + parseError[0].textContent;
+    return;
+  }
 
-    // Format XML
-    const formatted = formatXmlString(new XMLSerializer().serializeToString(xmlDoc));
-    document.getElementById('formatted-xml').value = formatted;
+  // Format XML
+  const formatted = formatXmlString(new XMLSerializer().serializeToString(xmlDoc));
+  document.getElementById('formatted-xml').value = formatted;
 }
 
 function formatXmlString(xml) {
-    const PADDING = '  ';
-    const reg = /(>)(<)(\/*)/g;
-    let formatted = '';
-    let pad = 0;
+  const PADDING = '  ';
+  const reg = /(>)(<)(\/*)/g;
+  let formatted = '';
+  let pad = 0;
 
-    xml = xml.replace(reg, '$1\r\n$2$3');
-    xml.split('\r\n').forEach((node) => {
-        let indent = 0;
-        if (node.match(/.+<\/\w[^>]*>$/)) {
-            indent = 0;
-        } else if (node.match(/^<\/\w/)) {
-            if (pad !== 0) pad -= 1;
-        } else if (node.match(/^<\w[^>]*[^\/]>.*$/)) {
-            indent = 1;
-        }
+  xml = xml.replace(reg, '$1\r\n$2$3');
+  xml.split('\r\n').forEach((node) => {
+    let indent = 0;
+    if (node.match(/.+<\/\w[^>]*>$/)) {
+      indent = 0;
+    } else if (node.match(/^<\/\w/)) {
+      if (pad !== 0) pad -= 1;
+    } else if (node.match(/^<\w[^>]*[^\/]>.*$/)) {
+      indent = 1;
+    }
 
-        formatted += PADDING.repeat(pad) + node + '\r\n';
-        pad += indent;
-    });
+    formatted += PADDING.repeat(pad) + node + '\r\n';
+    pad += indent;
+  });
 
-    return formatted.trim();
+  return formatted.trim();
 }
 
 function copyFormattedXML() {
-    const formattedText = document.getElementById('formatted-xml');
-    formattedText.select();
-    formattedText.setSelectionRange(0, 99999); // For mobile devices
-    document.execCommand('copy');
+  const formattedText = document.getElementById('formatted-xml');
+  formattedText.select();
+  formattedText.setSelectionRange(0, 99999); // For mobile devices
+  document.execCommand('copy');
 }
 
 const timeZones = [
-  { city: "(IST) India - Delhi", zone: "Asia/Kolkata", countryCode: "in" },
-  { city: "(EST) USA - New York", zone: "America/New_York", countryCode: "us" },
-  { city: "(CET) UK - London", zone: "Europe/London", countryCode: "gb" },
-  { city: "(UTC | GMT) Universal Time", zone: "UTC", countryCode: "un" },
+  { city: "IST - Delhi", zone: "Asia/Kolkata", countryCode: "in" },
+  { city: "EST - New York", zone: "America/New_York", countryCode: "us" },
+  { city: "CET - London", zone: "Europe/London", countryCode: "gb" },
+  { city: "UTC | GMT", zone: "UTC", countryCode: "un" },
   { city: "Israel - Jerusalem", zone: "Asia/Jerusalem", countryCode: "il" },
   { city: "Iran - Tehran", zone: "Asia/Tehran", countryCode: "ir" },
   { city: "Russia - Moscow", zone: "Europe/Moscow", countryCode: "ru" },
   { city: "Ukraine - Kyiv", zone: "Europe/Kyiv", countryCode: "ua" },
   { city: "Australia - Sydney", zone: "Australia/Sydney", countryCode: "au" },
-  { city: "(PST) Canada - Toronto", zone: "America/Toronto", countryCode: "ca" }
+  { city: "PST - Toronto", zone: "America/Toronto", countryCode: "ca" }
 ];
 
 const container = document.getElementById('clockContainer');

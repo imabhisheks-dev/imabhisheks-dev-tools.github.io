@@ -63,7 +63,7 @@ input {
     border-radius: 4px;
 }
 
-input.inline-time{
+input.inline-time {
     width: 93%;
     padding: 10px;
     padding-bottom: 5px;
@@ -104,42 +104,42 @@ h2 {
 }
 
 .clock-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
 }
 
 .timezone-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
 }
 
 .clock {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .flag {
-  width: 48px;
-  height: 32px;
-  object-fit: cover;
-  border: 1px solid #aaa;
+    width: 48px;
+    height: 32px;
+    object-fit: cover;
+    border: 1px solid #aaa;
 }
 
 .city {
-  font-size: 1.1em;
+    font-size: 1.1em;
 }
 
 .time {
-  font-size: 1.4em;
-  color: #333;
+    font-size: 1.4em;
+    color: #333;
 }
