@@ -45,7 +45,7 @@ function convertTime() {
   const zonesToShow = [
     { label: "UTC - Universal Time", zone: "UTC" },
     { label: "IST - India Time", zone: "Asia/Kolkata" },
-    { label: "EST - USA Time", zone: "America/New_York" },
+    { label: "EST/ET - USA Time", zone: "America/New_York" },
     { label: "CET - UK Time", zone: "Europe/London" },
     { label: "PST - Canada Time", zone: "America/Toronto" }
   ];
@@ -154,7 +154,7 @@ function copyFormattedXML() {
 
 const timeZones = [
   { city: "IST - Delhi", zone: "Asia/Kolkata", countryCode: "in" },
-  { city: "EST - New York", zone: "America/New_York", countryCode: "us" },
+  { city: "EST/ET - New York", zone: "America/New_York", countryCode: "us" },
   { city: "CET - London", zone: "Europe/London", countryCode: "gb" },
   { city: "UTC | GMT", zone: "UTC", countryCode: "un" },
   { city: "Israel - Jerusalem", zone: "Asia/Jerusalem", countryCode: "il" },
@@ -162,7 +162,8 @@ const timeZones = [
   { city: "Russia - Moscow", zone: "Europe/Moscow", countryCode: "ru" },
   { city: "Ukraine - Kyiv", zone: "Europe/Kyiv", countryCode: "ua" },
   { city: "Australia - Sydney", zone: "Australia/Sydney", countryCode: "au" },
-  { city: "PST - Toronto", zone: "America/Toronto", countryCode: "ca" }
+  { city: "PST - Toronto", zone: "America/Toronto", countryCode: "ca" },
+  { city: "GST - UAE", zone: "Asia/Dubai", countryCode: "ae" }
 ];
 
 const container = document.getElementById('clockContainer');
