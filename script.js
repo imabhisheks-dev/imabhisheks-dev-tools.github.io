@@ -203,6 +203,19 @@ updateClocks();
 setInterval(updateClocks, 1000);
 
 
+function formatToIndianNumberingSystem(value) {
+  // Remove non-digit characters
+  value = value.replace(/[^0-9]/g, '');
+
+  if (value.length <= 3) return value;
+
+  const lastThree = value.slice(-3);
+  const rest = value.slice(0, -3);
+  const formattedRest = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
+
+  return formattedRest + "," + lastThree;
+}
+
 window.addEventListener("DOMContentLoaded", () => {
   // Set default values
   const today = luxon.DateTime.now();
