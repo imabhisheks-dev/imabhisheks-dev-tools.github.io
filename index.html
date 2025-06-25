@@ -14,6 +14,7 @@
         <a href="#" onclick="showSection('timezone-converter')">TimeZone Converter</a>
         <a href="#" onclick="showSection('json-formatter')">JSON Formatter</a>
         <a href="#" onclick="showSection('xml-formatter')">XML Formatter</a>
+        <a href="#" onclick="showSection('emi-calculator')">EMI Calculator</a>
     </div>
 
     <div class="container" id="timezone-converter">
@@ -64,7 +65,7 @@
         <h2 id="target-timezone-result"></h2>
         <p id="other-timezone-result"></p>
 
-        <hr style="margin: 30px 0; border: none; border-top: 2px solid #ccc;" />
+        <hr class="separator" />
 
         <h1>Live World Clock</h1>
         <div class="clock-container" id="clockContainer">
@@ -124,6 +125,66 @@
             </div>
         </div>
     </div>
+
+    <div class="container hidden" id="emi-calculator">
+        <h1>EMI Calculator</h1>
+        <p>Calculate your EMI (Equated Monthly Installment) based on the principal amount, interest rate, and
+            tenure.</p>
+        <div class="emi-calculator-container">
+            <div>
+                <label for="principal">Principal Amount (₹):</label>
+                <input type="text" id="principal" placeholder="Enter principal amount" />
+            </div>
+            <div>
+                <label for="interest">Annual Interest Rate (%):</label>
+                <input type="number" id="interest" placeholder="Enter annual interest rate" class="emi-input" />
+            </div>
+            <div>
+                <label for="tenure-months">Tenure (Months):</label>
+                <input type="number" id="tenure-months" value="0" placeholder="Months" class="emi-input" />
+            </div>
+            <div>
+                <label for="disbursal-date">Disbursal Date:</label>
+                <input type="date" id="disbursal-date" class="emi-input" />
+            </div>
+            <div>
+                <label for="emi-day">EMI Day:</label>
+                <input type="number" id="emi-day" min="1" max="28" value="5" class="emi-input" />
+            </div>
+        </div>
+        <button onclick="calculateEMI()">Calculate EMI</button>
+
+        <h2>Result</h2>
+        <p><strong>EMI:</strong> ₹<span id="emi"></span></p>
+        <p><strong>Total Interest Payable:</strong> ₹<span id="total-interest"></span></p>
+        <p><strong>Principal Amount:</strong> ₹<span id="principal-result"></span></p>
+        <p><strong>Total Payment (Principal + Interest):</strong> ₹<span id="total-payment"></span></p>
+
+        <hr class="separator" />
+
+
+        <div style="max-height: 400px; overflow-y: scroll;">
+            <table id="emi-schedule" border="1" cellpadding="5" cellspacing="0"
+                style="width: 100%; background-color: #fff;">
+                <thead>
+                    <tr>
+                        <th colspan="5" style="text-align: center; font-size: 16px; background-color: #007BFF; color: white;">
+                          EMI Schedule (Day-wise)
+                        </th>
+                      </tr>
+                      <tr>
+                        <th>Date</th>
+                        <th>EMI (₹)</th>
+                        <th>Interest (₹)</th>
+                        <th>Principal (₹)</th>
+                        <th>Balance (₹)</th>
+                      </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
 
     <script src="script.js"></script>
 </body>

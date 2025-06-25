@@ -201,3 +201,115 @@ function updateClocks() {
 
 updateClocks();
 setInterval(updateClocks, 1000);
+
+
+window.addEventListener("DOMContentLoaded", () => {
+  // Set default values
+  const today = luxon.DateTime.now();
+  document.getElementById("disbursal-date").value = today.toISODate();
+  document.getElementById("emi-day").value = today.day;
+
+  // Format principal on load
+  const principalInput = document.getElementById("principal");
+
+  principalInput.addEventListener("input", () => {
+    const value = principalInput.value.replace(/,/g, '');
+    principalInput.value = formatToIndianNumberingSystem(value);
+    calculateEMI();
+  });
+
+  principalInput.addEventListener("focus", () => {
+    principalInput.value = principalInput.value.replace(/,/g, '');
+  });
+
+  principalInput.addEventListener("blur", () => {
+    const value = principalInput.value.replace(/,/g, '');
+    principalInput.value = formatToIndianNumberingSystem(value);
+  });
+
+  // Call calculateEMI when any other input changes
+  const emiInputs = document.querySelectorAll(".emi-input");
+  emiInputs.forEach(input => {
+    input.addEventListener("input", () => {
+      if (input.id !== "principal") {
+        calculateEMI();
+      }
+    });
+  });
+});
+function calculateEMIButton() {
+  const principal = parseFloat(document.getElementById("principal").value.replace(/,/g, ''));
+  const annualRate = parseFloat(document.getElementById("interest").value);
+  const months = parseInt(document.getElementById("tenure-months").value || 0);
+  const disbursalDateStr = document.getElementById("disbursal-date").value;
+  const emiDay = parseInt(document.getElementById("emi-day").value);
+
+  if (!principal || !annualRate || !months || !disbursalDateStr || !emiDay) {
+    alert("Please fill in all the fields correctly.");
+    return;
+  }
+  else {
+    calculateEMI();
+  }
+}
+function calculateEMI() {
+  const principal = parseFloat(document.getElementById("principal").value.replace(/,/g, ''));
+  const annualRate = parseFloat(document.getElementById("interest").value);
+  const months = parseInt(document.getElementById("tenure-months").value || 0);
+  const disbursalDateStr = document.getElementById("disbursal-date").value;
+  const emiDay = parseInt(document.getElementById("emi-day").value);
+
+  if (!principal || !annualRate || !months || !disbursalDateStr || !emiDay) {
+    return;
+  }
+
+  const totalMonths = parseInt(document.getElementById("tenure-months").value || 0);
+  const monthlyRate = annualRate / 12 / 100;
+  const emi =
+    (principal * monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) /
+    (Math.pow(1 + monthlyRate, totalMonths) - 1);
+
+  const totalPayment = emi * totalMonths;
+  const totalInterest = totalPayment - principal;
+
+  document.getElementById("emi").textContent = emi.toFixed(2);
+  document.getElementById("total-interest").textContent = totalInterest.toFixed(2);
+  document.getElementById("principal-result").textContent = principal.toFixed(2);
+  document.getElementById("total-payment").textContent = totalPayment.toFixed(2);
+
+  const disbursalDate = luxon.DateTime.fromISO(disbursalDateStr);
+  generateEmiSchedule(principal, monthlyRate, emi, totalMonths, disbursalDate, emiDay);
+}
+
+function generateEmiSchedule(principal, monthlyRate, emi, totalMonths, disbursalDate, emiDay) {
+  const tbody = document.querySelector("#emi-schedule tbody");
+  tbody.innerHTML = "";
+
+  let balance = principal;
+
+  // Calculate first EMI date (adjust to the emiDay of next or same month)
+  let currentDate = disbursalDate.day <= emiDay
+    ? disbursalDate.set({ day: emiDay })
+    : disbursalDate.plus({ months: 1 }).set({ day: emiDay });
+
+  for (let i = 0; i < totalMonths; i++) {
+    const interestPayment = balance * monthlyRate;
+    const principalPayment = emi - interestPayment;
+    balance -= principalPayment;
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td>${currentDate.toFormat("dd LLL yyyy")}</td>
+      <td>₹${emi.toFixed(2)}</td>
+      <td>₹${interestPayment.toFixed(2)}</td>
+      <td>₹${principalPayment.toFixed(2)}</td>
+      <td>₹${balance > 0 ? balance.toFixed(2) : 0}</td>
+    `;
+
+    tbody.appendChild(row);
+
+    // Set next EMI date
+    currentDate = currentDate.plus({ months: 1 }).set({ day: emiDay });
+  }
+}
