@@ -178,12 +178,15 @@ const getFlagUrl = (code) =>
 timeZones.forEach(({ city, zone, countryCode }, index) => {
   const div = document.createElement('div');
   div.className = 'clock';
+  const offset = moment.tz(zone).utcOffset();
+  const offsetHours = offset / 60;
+  const formattedOffset = offsetHours >= 0 ? `UTC+${offsetHours}` : `UTC${offsetHours}`;
   // Get current time in the specified time zone
   const currentTime = moment.tz(zone).format('HH:mm:ss');
   div.innerHTML = `
     <img class="flag" src="${getFlagUrl(countryCode)}" alt="${countryCode} flag">
     <div class="info">
-      <div class="city">${city}</div>
+      <div class="city">${city} (${formattedOffset})</div>
       <div class="time" id="time-${index}">${currentTime}</div>
     </div>
   `;
