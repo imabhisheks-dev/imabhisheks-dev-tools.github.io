@@ -175,7 +175,7 @@ const getFlagUrl = (code) =>
     ? "https://upload.wikimedia.org/wikipedia/commons/c/c4/Globe_icon.svg"
     : `https://flagcdn.com/w80/${code}.png`;
 
-timeZones.forEach(({ city, countryCode }, index) => {
+timeZones.forEach(({ city, zone, countryCode }, index) => {
   const div = document.createElement('div');
   div.className = 'clock';
   // Get current time in the specified time zone
