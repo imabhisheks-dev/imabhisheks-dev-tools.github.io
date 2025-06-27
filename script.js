@@ -46,8 +46,9 @@ function convertTime() {
     { label: "UTC - Universal Time", zone: "UTC" },
     { label: "IST - India Time", zone: "Asia/Kolkata" },
     { label: "EST/ET - USA Time", zone: "America/New_York" },
+    { label: "PT - USA Time", zone: "America/Los_Angeles" },
     { label: "CET - UK Time", zone: "Europe/London" },
-    { label: "PST - Canada Time", zone: "America/Toronto" }
+    { label: "PST - Canada Time", zone: "Canada/Toronto" }
   ];
 
   zonesToShow.forEach(({ label, zone }) => {
@@ -155,6 +156,7 @@ function copyFormattedXML() {
 const timeZones = [
   { city: "IST - Delhi", zone: "Asia/Kolkata", countryCode: "in" },
   { city: "EST/ET - New York", zone: "America/New_York", countryCode: "us" },
+  { city: "PT - Los Angeles", zone: "America/Los_Angeles", countryCode: "us" },
   { city: "CET - London", zone: "Europe/London", countryCode: "gb" },
   { city: "UTC | GMT", zone: "UTC", countryCode: "un" },
   { city: "Israel - Jerusalem", zone: "Asia/Jerusalem", countryCode: "il" },
