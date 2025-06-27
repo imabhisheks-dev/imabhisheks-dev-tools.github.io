@@ -186,8 +186,8 @@ timeZones.forEach(({ city, zone, countryCode }, index) => {
   div.innerHTML = `
     <img class="flag" src="${getFlagUrl(countryCode)}" alt="${countryCode} flag">
     <div class="info">
-      <div class="city">${city} (${formattedOffset})</div>
-      <div class="time" id="time-${index}">${currentTime}</div>
+      <div class="city">${city}</div>
+      <div class="time" id="time-${index}">${currentTime} (${formattedOffset})</div>
     </div>
   `;
   container.appendChild(div);
