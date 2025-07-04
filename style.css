@@ -182,3 +182,16 @@ h2 {
 #emi-schedule th {
     text-align: center;
 }
+
+#emi-schedule tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#emi-schedule th {
+  position: sticky;
+  top: 0;
+  background-color: #007BFF;
+  color: white;
+  z-index: 2;
+  text-align: center;
+}
