@@ -321,10 +321,10 @@ function generateEmiSchedule(principal, monthlyRate, emi, totalMonths, disbursal
 
     row.innerHTML = `
       <td>${currentDate.toFormat("dd LLL yyyy")}</td>
-      <td>₹${emi.toFixed(2)}</td>
-      <td>₹${interestPayment.toFixed(2)}</td>
-      <td>₹${principalPayment.toFixed(2)}</td>
-      <td>₹${balance > 0 ? balance.toFixed(2) : 0}</td>
+      <td>₹${formatToIndianNumberingSystem(emi.toFixed(2))}</td>
+      <td>₹${formatToIndianNumberingSystem(interestPayment.toFixed(2))}</td>
+      <td>₹${formatToIndianNumberingSystem(principalPayment.toFixed(2))}</td>
+      <td>₹${formatToIndianNumberingSystem(balance > 0 ? balance.toFixed(2) : 0)}</td>
     `;
 
     tbody.appendChild(row);
