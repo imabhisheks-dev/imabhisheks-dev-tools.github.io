@@ -301,10 +301,10 @@ function calculateEMI() {
   const totalPayment = emi * totalMonths;
   const totalInterest = totalPayment - principal;
 
-  document.getElementById("emi").textContent = emi.toFixed(2);
-  document.getElementById("total-interest").textContent = totalInterest.toFixed(2);
-  document.getElementById("principal-result").textContent = principal.toFixed(2);
-  document.getElementById("total-payment").textContent = totalPayment.toFixed(2);
+  document.getElementById("emi").textContent = formatIndianNumber(emi.toFixed(2));
+  document.getElementById("total-interest").textContent = formatIndianNumber(totalInterest.toFixed(2));
+  document.getElementById("principal-result").textContent = formatIndianNumber(principal.toFixed(2));
+  document.getElementById("total-payment").textContent = formatIndianNumber(totalPayment.toFixed(2));
 
   const disbursalDate = luxon.DateTime.fromISO(disbursalDateStr);
   generateEmiSchedule(principal, monthlyRate, emi, totalMonths, disbursalDate, emiDay);
