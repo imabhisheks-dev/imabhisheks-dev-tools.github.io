@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abhishek Dev Tools</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Using only Luxon for better performance -->
     <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.43/moment-timezone-with-data.min.js"></script>
+    <!-- Chart.js for EMI visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -22,10 +23,12 @@
     <div class="container" id="timezone-converter">
         <h1>Time Zone Converter</h1>
         <div class="timezone-container">
-            <div> <label for="time-input">Enter Time:</label>
+            <div class="timezone-input-group">
+                <label for="time-input">Enter Time:</label>
                 <input type="time" class="inline-time" id="time-input" />
             </div>
-            <div><label for="source-timezone">Source Time Zone:</label>
+            <div class="timezone-input-group">
+                <label for="source-timezone">Source Time Zone:</label>
                 <select id="source-timezone">
                     <option value="Asia/Kolkata">(IST) India - Delhi</option>
                     <option value="America/New_York">(EST/ET) USA - New York</option>
@@ -41,7 +44,8 @@
                 </select>
             </div>
 
-            <div><label for="target-timezone">Target Time Zone:</label>
+            <div class="timezone-input-group">
+                <label for="target-timezone">Target Time Zone:</label>
                 <select id="target-timezone">
                     <option value="Asia/Kolkata">(IST) India - Delhi</option>
                     <option value="America/New_York">(EST/ET) USA - New York</option>
@@ -56,18 +60,14 @@
                     <option value="America/Toronto">(PST) Canada - Toronto</option>
                 </select>
             </div>
-
         </div>
 
         <div>
-            <br>
-        </div>
-        <div>
-            <button onclick="convertTime()">Convert</button>
+            <button onclick="convertTime()">Convert Time</button>
         </div>
 
         <h2 id="target-timezone-result"></h2>
-        <p id="other-timezone-result"></p>
+        <div id="other-timezone-result"></div>
 
         <hr class="separator" />
 
@@ -80,31 +80,39 @@
 
     <div class="container hidden" id="json-formatter">
         <h1>JSON Formatter</h1>
-        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-            <div style="flex: 1; min-width: 300px;">
-                <label for="json-input">Paste JSON here (Replace following characters):</label>
-                <label>
-                    <input type="checkbox" class="inline-jsonformat-checkbox" id="cb-quote" />\" → "" ||
-                    <input type="checkbox" class="inline-jsonformat-checkbox" id="cb-newline" /> \n → "" ||
-                    <input type="checkbox" class="inline-jsonformat-checkbox" id="cb-carriage" /> \r → "" ||
-                    <input type="checkbox" class="inline-jsonformat-checkbox" id="cb-open-close-brace" /> "{,}" → "{}":
-                </label>
-                <textarea id="json-input" rows="40" placeholder="Paste your JSON here..."></textarea>
-                <button onclick="formatJSON()" style="margin-top: 10px;">Format Json</button>
+        <div class="formatter-container">
+            <div class="formatter-section">
+                <h3>Input JSON</h3>
+                <label for="json-input">Paste JSON here:</label>
+                <div class="checkbox-container">
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="inline-jsonformat-checkbox" id="cb-quote" />
+                        <label for="cb-quote">Remove \" → ""</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="inline-jsonformat-checkbox" id="cb-newline" />
+                        <label for="cb-newline">Remove \n → ""</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="inline-jsonformat-checkbox" id="cb-carriage" />
+                        <label for="cb-carriage">Remove \r → ""</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="inline-jsonformat-checkbox" id="cb-open-close-brace" />
+                        <label for="cb-open-close-brace">Fix "{,}" → "{}"</label>
+                    </div>
+                </div>
+                <textarea id="json-input" rows="30" placeholder="Paste your JSON here..." aria-label="JSON Input"></textarea>
+                <button onclick="formatJSON()">Format JSON</button>
             </div>
 
-            <div>
-            </div>
-
-            <div style="flex: 1; min-width: 300px;">
-                <label>
-                    Formatted JSON
-                </label>
-                <label class="inline-jsonformat-message" id="formatted-json-message">
-                    Formatted JSON will appear here...
-                </label>
-                <textarea id="formatted-json-response" rows="40" readonly></textarea>
-                <button onclick="copyFormattedJSON()" style="margin-top: 10px;">Copy to Clipboard</button>
+            <div class="formatter-section">
+                <h3>Formatted JSON</h3>
+                <div class="inline-jsonformat-message" id="formatted-json-message">
+                    Ready to format JSON...
+                </div>
+                <textarea id="formatted-json-response" rows="30" readonly placeholder="Formatted JSON will appear here..." aria-label="Formatted JSON Output"></textarea>
+                <button onclick="copyFormattedJSON()">Copy to Clipboard</button>
             </div>
         </div>
     </div>
@@ -112,89 +120,98 @@
 
     <div class="container hidden" id="xml-formatter">
         <h1>XML Formatter</h1>
-        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-            <div style="flex: 1; min-width: 300px;">
+        <div class="formatter-container">
+            <div class="formatter-section">
+                <h3>Input XML</h3>
                 <label for="xml-input">Paste XML here:</label>
-                <textarea id="xml-input" rows="40" placeholder="Paste your XML here..."></textarea>
-                <button onclick="formatXML()" style="margin-top: 10px;">Format XML</button>
+                <textarea id="xml-input" rows="30" placeholder="Paste your XML here..." aria-label="XML Input"></textarea>
+                <button onclick="formatXML()">Format XML</button>
             </div>
 
-            <div>
-            </div>
-
-            <div style="flex: 1; min-width: 300px;">
+            <div class="formatter-section">
+                <h3>Formatted XML</h3>
                 <label for="formatted-xml">Formatted XML:</label>
-                <textarea id="formatted-xml" rows="40" readonly></textarea>
-                <button onclick="copyFormattedXML()" style="margin-top: 10px;">Copy to Clipboard</button>
+                <textarea id="formatted-xml" rows="30" readonly placeholder="Formatted XML will appear here..." aria-label="Formatted XML Output"></textarea>
+                <button onclick="copyFormattedXML()">Copy to Clipboard</button>
             </div>
         </div>
     </div>
 
     <div class="container hidden" id="emi-calculator">
         <h1>EMI Calculator</h1>
-        <p style="text-align: center;">Calculate your EMI (Equated Monthly Installment) based on the principal amount,
-            interest rate, and
-            tenure.</p>
+        <p class="description">Calculate your EMI (Equated Monthly Installment) based on the principal amount,
+            interest rate, and tenure.</p>
         <div class="emi-calculator-container">
-            <div>
+            <div class="emi-input-group">
                 <label for="principal"><strong>Principal Amount (₹):</strong></label>
-                <input type="text" id="principal" placeholder="Enter principal amount" class="emi-input" />
+                <input type="text" id="principal" class="emi-input" />
             </div>
-            <div>
-                <label for="interest"><strong>Annual InterestRate (%):</strong></label>
-                <input type="number" id="interest" placeholder="Enter annual interest rate" class="emi-input" />
+            <div class="emi-input-group">
+                <label for="interest"><strong>Interest Rate (%):</strong></label>
+                <input type="number" id="interest" class="emi-input" />
             </div>
-            <div>
+            <div class="emi-input-group">
                 <label for="tenure-months"><strong>Tenure (Months):</strong></label>
                 <input type="number" id="tenure-months" value="0" placeholder="Months" class="emi-input" />
             </div>
-            <div>
-                <label for="disbursal-date"><strong>Disbursal Date:</strong></label>
-                <input type="date" id="disbursal-date" class="emi-input" />
-            </div>
-            <div>
+            <div class="emi-input-group">
                 <label for="emi-day"><strong>EMI Day:</strong></label>
                 <input type="number" id="emi-day" min="1" max="28" value="5" class="emi-input" />
             </div>
-            <div>
-                <label>&nbsp;</label>
-                <button onclick="calculateEMI()"><strong>Calculate EMI</strong></button>
+            <div class="emi-input-group">
+                <label for="disbursal-date"><strong>Disbursal Date:</strong></label>
+                <input type="date" id="disbursal-date" class="emi-input" />
             </div>
         </div>
 
         <hr class="separator" />
         <div class="emi-calculator-container">
-            <div>
-                <p><strong>Monthly Installments (EMI):</strong></p>
-                <p> ₹<span id="emi"></span></p>
+            <div class="emi-result">
+                <h3>Monthly EMI ₹</h3>
+                <p class="amount"><span id="emi">0</span></p>
             </div>
-            <div>
-                <p><strong>Total Interest (I):</strong></p>
-                <p> ₹<span id="total-interest"></span></p>
+            <div class="emi-result">
+                <h3>Total Interest ₹</h3>
+                <p class="amount"><span id="total-interest">0</span></p>
             </div>
-            <div>
-                <p><strong>Principal Amount (P):</strong></p>
-                <p> ₹<span id="principal-result"></span></p>
+            <div class="emi-result">
+                <h3>Principal Amount ₹</h3>
+                <p class="amount"><span id="principal-result">0</span></p>
             </div>
-            <div>
-                <p><strong>Total Payment (P + I):</strong></p>
-                <p> ₹<span id="total-payment"></span></p>
+            <div class="emi-result">
+                <h3>Total Payment ₹</h3>
+                <p class="amount"><span id="total-payment">0</span></p>
             </div>
-            <div>
-                <p><strong>&nbsp;</strong></p>
-                <button onclick="exportEmiScheduleToCSV()"><strong>Export Schedule to CSV</strong></button>
+            <div class="emi-result chart-result">
+                <h3>Payment Breakdown</h3>
+                <div class="chart-wrapper-small">
+                    <canvas id="paymentBreakdownChart"></canvas>
+                </div>
             </div>
         </div>
         <hr class="separator" />
 
+        <!-- EMI Charts Section -->
+        <div class="yearly-chart-container">
+            <div class="chart-section-full">
+                <h3>Interest vs Principal (Year by Year)</h3>
+                <div class="chart-wrapper">
+                    <canvas id="yearlyBreakdownChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <hr class="separator" />
 
-        <div style="overflow-y: scroll;">
-            <table id="emi-schedule" border="1" cellpadding="5" cellspacing="0"
-                style="width: 100%; background-color: #fff;">
+        <!-- Export Button -->
+        <div class="export-section">
+            <button onclick="exportEmiScheduleToCSV()"><strong>📊 Export Schedule to CSV</strong></button>
+        </div>
+
+        <div class="table-container">
+            <table id="emi-schedule">
                 <thead>
                     <tr>
-                        <th colspan="5"
-                            style="text-align: center; font-size: 16px; background-color: #007BFF; color: white;">
+                        <th colspan="5" class="table-header">
                             EMI Schedule
                         </th>
                     </tr>
@@ -209,9 +226,8 @@
                 <tbody></tbody>
             </table>
         </div>
-        <div style="display: none;">
-            <table id="emi-schedule-export" border="1" cellpadding="5" cellspacing="0"
-                style="width: 100%; background-color: #fff;">
+        <div class="export-table">
+            <table id="emi-schedule-export">
                 <thead>
                     <tr>
                         <th>Date</th>
