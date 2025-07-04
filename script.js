@@ -210,6 +210,15 @@ updateClocks();
 setInterval(updateClocks, 1000);
 
 
+function formatIndianNumber(num) {
+  const [integerPart, decimalPart] = num.toString().split(".");
+  const lastThree = integerPart.slice(-3);
+  const otherNumbers = integerPart.slice(0, -3);
+  const formattedInteger = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + (otherNumbers ? "," : "") + lastThree;
+  return decimalPart ? `${formattedInteger}.${decimalPart}` : formattedInteger;
+}
+
+
 function formatToIndianNumberingSystem(value) {
   // Remove non-digit characters
   value = value.replace(/[^0-9]/g, '');
@@ -321,10 +330,10 @@ function generateEmiSchedule(principal, monthlyRate, emi, totalMonths, disbursal
 
     row.innerHTML = `
       <td>${currentDate.toFormat("dd LLL yyyy")}</td>
-      <td>₹${formatToIndianNumberingSystem(emi.toFixed(2))}</td>
-      <td>₹${formatToIndianNumberingSystem(interestPayment.toFixed(2))}</td>
-      <td>₹${formatToIndianNumberingSystem(principalPayment.toFixed(2))}</td>
-      <td>₹${formatToIndianNumberingSystem(balance > 0 ? balance.toFixed(2) : 0)}</td>
+      <td>₹${formatIndianNumber(emi.toFixed(2))}</td>
+      <td>₹${formatIndianNumber(interestPayment.toFixed(2))}</td>
+      <td>₹${formatIndianNumber(principalPayment.toFixed(2))}</td>
+      <td>₹${formatIndianNumber(balance > 0 ? balance.toFixed(2) : 0)}</td>
     `;
 
     tbody.appendChild(row);
