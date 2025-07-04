@@ -309,6 +309,21 @@ function calculateEMI() {
 
   const disbursalDate = luxon.DateTime.fromISO(disbursalDateStr);
   generateEmiSchedule(principal, monthlyRate, emi, totalMonths, disbursalDate, emiDay);
+  generateEmiScheduleExport(principal, monthlyRate, emi, totalMonths, disbursalDate, emiDay);
+}
+
+function exportEmiScheduleToCSV() {
+  const table = document.getElementById("emi-schedule-export");
+  const rows = Array.from(table.querySelectorAll("tr"));
+  const csvContent = rows
+    .map(row => Array.from(row.children).map(cell => `"${cell.textContent.trim()}"`).join(","))
+    .join("\n");
+
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "EMI_Schedule.csv";
+  link.click();
 }
 
 function generateEmiSchedule(principal, monthlyRate, emi, totalMonths, disbursalDate, emiDay) {
@@ -335,6 +350,39 @@ function generateEmiSchedule(principal, monthlyRate, emi, totalMonths, disbursal
       <td>₹${formatIndianNumber(interestPayment.toFixed(2))}</td>
       <td>₹${formatIndianNumber(principalPayment.toFixed(2))}</td>
       <td>₹${formatIndianNumber(balance > 0 ? balance.toFixed(2) : 0)}</td>
+    `;
+
+    tbody.appendChild(row);
+
+    // Set next EMI date
+    currentDate = currentDate.plus({ months: 1 }).set({ day: emiDay });
+  }
+}
+
+function generateEmiScheduleExport(principal, monthlyRate, emi, totalMonths, disbursalDate, emiDay) {
+  const tbody = document.querySelector("#emi-schedule-export tbody");
+  tbody.innerHTML = "";
+
+  let balance = principal;
+
+  // Calculate first EMI date (adjust to the emiDay of next or same month)
+  let currentDate = disbursalDate.day <= emiDay
+    ? disbursalDate.set({ day: emiDay })
+    : disbursalDate.plus({ months: 1 }).set({ day: emiDay });
+
+  for (let i = 0; i < totalMonths; i++) {
+    const interestPayment = balance * monthlyRate;
+    const principalPayment = emi - interestPayment;
+    balance -= principalPayment;
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td>${currentDate.toFormat("dd LLL yyyy")}</td>
+      <td>${emi.toFixed(2)}</td>
+      <td>${interestPayment.toFixed(2)}</td>
+      <td>${principalPayment.toFixed(2)}</td>
+      <td>${balance > 0 ? balance.toFixed(2) : 0}</td>
     `;
 
     tbody.appendChild(row);

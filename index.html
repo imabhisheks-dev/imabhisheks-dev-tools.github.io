@@ -180,6 +180,10 @@
                 <p><strong>Total Payment (P + I):</strong></p>
                 <p> ₹<span id="total-payment"></span></p>
             </div>
+            <div>
+                <p><strong>&nbsp;</strong></p>
+                <button onclick="exportEmiScheduleToCSV()"><strong>Export Schedule to CSV</strong></button>
+            </div>
         </div>
         <hr class="separator" />
 
@@ -200,6 +204,21 @@
                         <th>Interest (₹)</th>
                         <th>Principal (₹)</th>
                         <th>Balance (₹)</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div style="display: none;">
+            <table id="emi-schedule-export" border="1" cellpadding="5" cellspacing="0"
+                style="width: 100%; background-color: #fff;">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>EMI</th>
+                        <th>Interest</th>
+                        <th>Principal</th>
+                        <th>Balance</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
