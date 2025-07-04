@@ -3,6 +3,7 @@ function showSection(sectionId) {
   document.getElementById('timezone-converter').classList.add('hidden');
   document.getElementById('json-formatter').classList.add('hidden');
   document.getElementById('xml-formatter').classList.add('hidden');
+  document.getElementById('emi-calculator').classList.add('hidden');
   document.getElementById(sectionId).classList.remove('hidden');
 }
 
