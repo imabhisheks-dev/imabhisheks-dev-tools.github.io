@@ -310,7 +310,7 @@ button:active {
 /* EMI Calculator */
 .emi-calculator-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr) 300px;
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     margin-top: 20px;
 }
@@ -321,11 +321,38 @@ button:active {
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .emi-input-group input {
-    width: 80%;
+    width: 100%;
     text-align: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border: 2px solid #e0e0e0;
+    padding: 15px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: #fafafa;
+}
+
+.emi-input-group input:focus {
+    border-color: #007BFF;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.emi-input-group input::placeholder {
+    color: #666;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+.emi-input-group input:focus::placeholder {
+    opacity: 0.5;
 }
 
 .emi-input-group button {
@@ -402,15 +429,24 @@ th {
     color: white;
     font-weight: 600;
     position: sticky;
-    top: 0;
     z-index: 10;
 }
 
+/* First header row (table title) */
 .table-header {
     background: linear-gradient(135deg, #007BFF 0%, #0056b3 100%);
     color: white;
     font-size: 1.2rem;
     font-weight: 600;
+    top: 0;
+    position: sticky;
+    z-index: 12;
+}
+
+/* Second header row (column headers) */
+thead tr:nth-child(2) th {
+    top: 49px; /* Height of the first header row */
+    z-index: 11;
 }
 
 tr:nth-child(even) {
@@ -567,10 +603,6 @@ input:focus, select:focus, textarea:focus, button:focus {
     width: 100%;
 }
 
-.chart-section:first-child .chart-wrapper {
-    height: 300px;
-}
-
 .chart-wrapper canvas {
     position: absolute;
     top: 0;
@@ -648,73 +680,14 @@ input:focus, select:focus, textarea:focus, button:focus {
 
 /* Responsive chart layout */
 @media (max-width: 768px) {
-    .emi-calculator-container {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-    }
-    
-    .emi-result.chart-result {
-        grid-column: 1 / -1;
-    }
-    
-    .chart-wrapper-small {
-        height: 250px;
-    }
-    
-    .chart-section-full .chart-wrapper {
-        height: 350px;
-    }
-}
-
-@media (max-width: 480px) {
-    .emi-calculator-container {
+    .charts-container {
         grid-template-columns: 1fr;
-        gap: 15px;
+        gap: 20px;
     }
     
-    .chart-wrapper-small {
-        height: 200px;
-    }
-    
-    .chart-section-full .chart-wrapper {
+    .chart-wrapper {
         height: 300px;
     }
-}
-
-.chart-wrapper-small {
-    position: relative;
-    height: 200px;
-    width: 100%;
-}
-
-.chart-wrapper-small canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100% !important;
-    height: 100% !important;
-}
-
-.yearly-chart-container {
-    margin: 30px 0;
-}
-
-.chart-section-full {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-.chart-section-full h3 {
-    margin: 0 0 20px 0;
-    color: #333;
-    font-size: 1.3rem;
-    text-align: center;
-}
-
-.chart-section-full .chart-wrapper {
-    height: 450px;
 }
 
 /* Export Section */

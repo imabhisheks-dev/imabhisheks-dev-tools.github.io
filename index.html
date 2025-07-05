@@ -143,24 +143,16 @@
             interest rate, and tenure.</p>
         <div class="emi-calculator-container">
             <div class="emi-input-group">
-                <label for="principal"><strong>Principal Amount (₹):</strong></label>
-                <input type="text" id="principal" class="emi-input" />
+                <input type="text" id="principal" class="emi-input" placeholder="💰 Principal Amount (₹)" />
             </div>
             <div class="emi-input-group">
-                <label for="interest"><strong>Interest Rate (%):</strong></label>
-                <input type="number" id="interest" class="emi-input" />
+                <input type="number" id="interest" class="emi-input" placeholder="📈 Interest Rate (%)" step="0.01" />
             </div>
             <div class="emi-input-group">
-                <label for="tenure-months"><strong>Tenure (Months):</strong></label>
-                <input type="number" id="tenure-months" value="0" placeholder="Months" class="emi-input" />
+                <input type="number" id="tenure-months" class="emi-input" placeholder="📅 Tenure (Months)" step="3" />
             </div>
             <div class="emi-input-group">
-                <label for="emi-day"><strong>EMI Day:</strong></label>
-                <input type="number" id="emi-day" min="1" max="28" value="5" class="emi-input" />
-            </div>
-            <div class="emi-input-group">
-                <label for="disbursal-date"><strong>Disbursal Date:</strong></label>
-                <input type="date" id="disbursal-date" class="emi-input" />
+                <input type="date" id="disbursal-date" class="emi-input" placeholder="📆 Disbursal Date" />
             </div>
         </div>
 
@@ -182,18 +174,18 @@
                 <h3>Total Payment ₹</h3>
                 <p class="amount"><span id="total-payment">0</span></p>
             </div>
-            <div class="emi-result chart-result">
-                <h3>Payment Breakdown</h3>
-                <div class="chart-wrapper-small">
-                    <canvas id="paymentBreakdownChart"></canvas>
-                </div>
-            </div>
         </div>
         <hr class="separator" />
 
         <!-- EMI Charts Section -->
-        <div class="yearly-chart-container">
-            <div class="chart-section-full">
+        <div class="charts-container">
+            <div class="chart-section">
+                <h3>Payment Breakdown</h3>
+                <div class="chart-wrapper">
+                    <canvas id="paymentBreakdownChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-section chart-section-large">
                 <h3>Interest vs Principal (Year by Year)</h3>
                 <div class="chart-wrapper">
                     <canvas id="yearlyBreakdownChart"></canvas>
@@ -211,11 +203,12 @@
             <table id="emi-schedule">
                 <thead>
                     <tr>
-                        <th colspan="5" class="table-header">
+                        <th colspan="6" class="table-header">
                             EMI Schedule
                         </th>
                     </tr>
                     <tr>
+                        <th>Period</th>
                         <th>Date</th>
                         <th>EMI (₹)</th>
                         <th>Interest (₹)</th>
@@ -230,6 +223,7 @@
             <table id="emi-schedule-export">
                 <thead>
                     <tr>
+                        <th>Period</th>
                         <th>Date</th>
                         <th>EMI</th>
                         <th>Interest</th>

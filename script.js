@@ -345,10 +345,8 @@ class DevToolsApp {
     setupEMICalculator() {
         const today = luxon.DateTime.now();
         const disbursalDate = document.getElementById("disbursal-date");
-        const emiDay = document.getElementById("emi-day");
 
         if (disbursalDate) disbursalDate.value = today.toISODate();
-        if (emiDay) emiDay.value = today.day;
     }
 
     handlePrincipalInput() {
@@ -400,14 +398,15 @@ class DevToolsApp {
         const annualRate = parseFloat(document.getElementById("interest")?.value || 0);
         const months = parseInt(document.getElementById("tenure-months")?.value || 0);
         const disbursalDateStr = document.getElementById("disbursal-date")?.value;
-        const emiDay = parseInt(document.getElementById("emi-day")?.value || 0);
 
-        if (!principal || !annualRate || !months || !disbursalDateStr || !emiDay) {
+        if (!principal || !annualRate || !months || !disbursalDateStr) {
             this.clearEMIResults();
             return;
         }
 
         try {
+            const disbursalDate = luxon.DateTime.fromISO(disbursalDateStr);
+            const emiDay = disbursalDate.day; // Use disbursal date's day as EMI day
             const monthlyRate = annualRate / 12 / 100;
             const emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) /
                        (Math.pow(1 + monthlyRate, months) - 1);
@@ -421,7 +420,6 @@ class DevToolsApp {
             document.getElementById("principal-result").textContent = this.formatIndianNumber(principal.toFixed(2));
             document.getElementById("total-payment").textContent = this.formatIndianNumber(totalPayment.toFixed(2));
 
-            const disbursalDate = luxon.DateTime.fromISO(disbursalDateStr);
             this.generateEmiSchedule(principal, monthlyRate, emi, months, disbursalDate, emiDay);
             this.updateCharts(principal, monthlyRate, emi, months, disbursalDate, emiDay);
         } catch (error) {
@@ -441,7 +439,7 @@ class DevToolsApp {
         if (tbody) tbody.innerHTML = "";
 
         // Reset payment breakdown chart title
-        const chartTitleElement = document.querySelector('#paymentBreakdownChart')?.closest('.emi-result')?.querySelector('h3');
+        const chartTitleElement = document.querySelector('#paymentBreakdownChart')?.closest('.chart-section')?.querySelector('h3');
         if (chartTitleElement) {
             chartTitleElement.textContent = 'Payment Breakdown';
         }
@@ -478,6 +476,9 @@ class DevToolsApp {
             const principalPayment = emi - interestPayment;
             balance = Math.max(0, balance - principalPayment);
 
+            const yearNumber = Math.floor(i / 12);
+            const monthNumber = (i % 12) + 1;
+            const yymmFormat = `${yearNumber}y${monthNumber}m`;
             const dateStr = currentDate.toFormat("dd LLL yyyy");
             const emiStr = this.formatIndianNumber(emi.toFixed(2));
             const interestStr = this.formatIndianNumber(interestPayment.toFixed(2));
@@ -487,6 +488,7 @@ class DevToolsApp {
             // Display table
             const displayRow = document.createElement("tr");
             displayRow.innerHTML = `
+                <td>${yymmFormat}</td>
                 <td>${dateStr}</td>
                 <td>₹${emiStr}</td>
                 <td>₹${interestStr}</td>
@@ -498,6 +500,7 @@ class DevToolsApp {
             // Export table
             const exportRow = document.createElement("tr");
             exportRow.innerHTML = `
+                <td>${yymmFormat}</td>
                 <td>${dateStr}</td>
                 <td>${emi.toFixed(2)}</td>
                 <td>${interestPayment.toFixed(2)}</td>
@@ -735,10 +738,10 @@ class DevToolsApp {
         const totalInterest = totalPayment - principal;
 
         // Update payment breakdown chart title
-        const chartTitleElement = document.querySelector('#paymentBreakdownChart').closest('.emi-result').querySelector('h3');
+        const chartTitleElement = document.querySelector('#paymentBreakdownChart')?.closest('.chart-section')?.querySelector('h3');
         if (chartTitleElement) {
             const formattedTotal = this.formatIndianNumber(totalPayment.toFixed(0));
-            chartTitleElement.textContent = `Total Payment ₹${formattedTotal}`;
+            chartTitleElement.textContent = `Payment Breakdown - ₹${formattedTotal}`;
         }
 
         // Update payment breakdown chart
@@ -805,7 +808,7 @@ class DevToolsApp {
         const principal = document.getElementById("principal")?.value.replace(/,/g, '') || '0';
         const interest = document.getElementById("interest")?.value || '0';
         const tenure = document.getElementById("tenure-months")?.value || '0';
-        const emiDay = document.getElementById("emi-day")?.value || '0';
+        const disbursalDate = document.getElementById("disbursal-date")?.value || 'unknown';
 
         const rows = Array.from(table.querySelectorAll("tr"));
         const csvContent = rows
@@ -817,7 +820,7 @@ class DevToolsApp {
         const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
-        link.download = `EMI-Schedule-${principal}-${interest}-${tenure}-${emiDay}.csv`;
+        link.download = `EMI-Schedule-${principal}-${interest}-${tenure}-${disbursalDate}.csv`;
         link.click();
         URL.revokeObjectURL(link.href);
     }
