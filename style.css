@@ -400,6 +400,85 @@ button:active {
     font-size: 1.1rem;
 }
 
+/* EMI Header with Donation Section */
+.emi-header-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+    align-items: start;
+}
+
+.emi-header-main h1 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.emi-header-main .description {
+    color: #666;
+    margin: 0;
+}
+
+/* Donation Section */
+.donation-section {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    padding: 20px;
+    border-radius: 12px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(255, 107, 107, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.donation-section h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.donate-text {
+    margin: 0 0 15px 0;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.qr-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.qr-code {
+    width: 60px;
+    height: 60px;
+    border: 2px solid white;
+    border-radius: 6px;
+    background: white;
+    padding: 3px;
+    transition: transform 0.3s ease;
+}
+
+.qr-code:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.upi-id {
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    margin: 0;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.donate-note {
+    font-size: 0.75rem;
+    margin: 0;
+    opacity: 0.8;
+}
+
 /* Tables */
 .table-container {
     overflow-x: auto;
@@ -687,6 +766,14 @@ input:focus, select:focus, textarea:focus, button:focus {
     
     .chart-wrapper {
         height: 300px;
+    }
+    
+    .qr-code {
+        width: 50px;
+        height: 50px;
+        border: 2px solid white;
+        border-radius: 5px;
+        padding: 2px;
     }
 }
 
